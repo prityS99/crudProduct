@@ -10,6 +10,7 @@ const DatabaseConnection = async ()=>{
         if(conn){
             console.log("Database Connected");
             
+            
         }else{
             console.log("Database is not connected");
             
