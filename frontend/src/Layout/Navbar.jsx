@@ -7,31 +7,39 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Box,
   Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import CategoryIcon from "@mui/icons-material/Category";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+
+  // Profile dropdown
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const openProfileMenu = Boolean(anchorEl);
+  const handleProfileOpen = (e) => setAnchorEl(e.currentTarget);
+  const handleProfileClose = () => setAnchorEl(null);
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  // Sidebar drawer
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const toggleDrawer = (open) => () => setOpenDrawer(open);
 
   return (
     <>
+      {/* AppBar */}
       <AppBar
         position="fixed"
         elevation={0}
@@ -44,8 +52,8 @@ const Navbar = () => {
         }}
       >
         <Toolbar>
-          {/* Left Icon */}
-          <IconButton edge="start" sx={{ mr: 2 }}>
+          {/* Left Menu Icon for Drawer */}
+          <IconButton edge="start" sx={{ mr: 2 }} onClick={toggleDrawer(true)}>
             <MenuIcon />
           </IconButton>
 
@@ -58,8 +66,8 @@ const Navbar = () => {
             Product Dashboard
           </Typography>
 
-          {/* Avatar */}
-          <IconButton onClick={handleMenuOpen}>
+          {/* Profile Avatar */}
+          <IconButton onClick={handleProfileOpen}>
             <Avatar
               sx={{
                 bgcolor: "rgba(56,189,248,0.8)",
@@ -70,11 +78,11 @@ const Navbar = () => {
             </Avatar>
           </IconButton>
 
-          {/* Dropdown Menu */}
+          {/* Profile Dropdown Menu */}
           <Menu
             anchorEl={anchorEl}
-            open={open}
-            onClose={handleMenuClose}
+            open={openProfileMenu}
+            onClose={handleProfileClose}
             PaperProps={{
               sx: {
                 mt: 1.5,
@@ -85,28 +93,19 @@ const Navbar = () => {
                 boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
               },
             }}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
             <MenuItem onClick={() => navigate("/profile")}>
               <PersonIcon fontSize="small" sx={{ mr: 1 }} />
               Profile
             </MenuItem>
-
             <MenuItem onClick={() => navigate("/settings")}>
               <SettingsIcon fontSize="small" sx={{ mr: 1 }} />
               Settings
             </MenuItem>
-
             <Divider />
-
-            <MenuItem onClick={handleMenuClose} sx={{ color: "error.main" }}>
+            <MenuItem onClick={handleProfileClose} sx={{ color: "error.main" }}>
               <LogoutIcon fontSize="small" sx={{ mr: 1 }} />
               Logout
             </MenuItem>
@@ -114,8 +113,28 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
 
-      {/* Spacer */}
+      {/* Spacer for AppBar */}
       <Toolbar />
+
+      {/* Sidebar Drawer */}
+      <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+          <List>
+            <ListItem button onClick={() => navigate("/")}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem button onClick={() => navigate("/products")}>
+              <ListItemIcon>
+                <CategoryIcon />
+              </ListItemIcon>
+              <ListItemText primary="Products" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
     </>
   );
 };

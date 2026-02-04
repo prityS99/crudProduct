@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getProducts, deleteProduct } from "../services/productService";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { deleteProduct, getProducts } from "../services/productServices";
 
 export const productSchema = yup.object({
   name: yup.string().required("Name is required"),

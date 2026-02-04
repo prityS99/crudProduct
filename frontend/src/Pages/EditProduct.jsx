@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, updateProduct } from "../services/productService";
-import ProductForm from "./ProductForm";
 import { Box, Typography, CircularProgress } from "@mui/material";
+import { getProductById, updateProduct } from "../services/productServices";
+import ProductForm from "./ProductForm";
 
 const EditProduct = () => {
   const { id } = useParams();

@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { createProduct } from "../services/productService";
-import ProductForm from "./ProductForm";
 import { useNavigate } from "react-router-dom";
+import { createProduct } from "../services/productServices";
+import ProductForm from "./ProductForm";
 
 const AddProduct = () => {
   const navigate = useNavigate();
